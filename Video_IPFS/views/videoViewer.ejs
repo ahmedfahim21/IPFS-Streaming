@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HLS Player</title>
+    <style>
+      body {
+        margin: 40px auto;
+        background-color: #444;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="video" width="500" height="500" controls></video>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      const video = document.getElementById("video");
+      const filesMapping = JSON.parse(`<%- filesMap %>`);
+
+      console.log("Files Mapping:", filesMapping);
+
+      try {
+        if (Hls.isSupported()) {
+          const hls = new Hls();
+
+          //const m3u8Url = filesMapping["output-<%=vidName%>.m3u8"];
+
+          // hls.loadSource(m3u8Url);
+
+          hls.loadSource("output-<%=vidName%>.m3u8");
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            video.play();
+            console.log(hls);
+            console.log("Done");
+          });
+        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+          const m3u8Url = filesMapping["output-<%=vidName%>.m3u8"];
+
+          video.src = m3u8Url;
+          video.addEventListener("loadedmetadata", () => {
+            video.play();
+          });
+        }
+      } catch (error) {
+        console.error("Error loading video:", error);
+      }
+    </script>
+  </body>
+</html>

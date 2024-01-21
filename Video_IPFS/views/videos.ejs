@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>List of Videos</title>
+    <style>
+      /* Optional CSS for better visuals */
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+      a:hover {
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>List of Videos</h1>
+
+    <% if (videos.length > 0) { %>
+    <ul>
+      <% videos.forEach((video) => { %>
+      <a href="/videos/<%= video.videoName %>">
+        <li>
+          <strong>Title:</strong> <%= video.videoName %> <br />
+          <strong>Uploader:</strong> <%= video.uploaderEmail %> <br />
+          <strong>Date of Upload:</strong> <%= video.dateOfUpload %> <br />
+          <strong>Views:</strong> <%= video.views %> <br />
+        </li>
+      </a>
+      <% }); %>
+    </ul>
+    <% } else { %>
+    <p>No videos available.</p>
+    <% } %>
+  </body>
+</html>

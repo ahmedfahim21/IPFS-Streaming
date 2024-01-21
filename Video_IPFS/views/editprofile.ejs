@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Account Settings</h2>
+      <ul>
+        <li>
+          <a href="#" class="option" data-option="change-username"
+            >Change Username</a
+          >
+        </li>
+        <li>
+          <a href="#" class="option" data-option="change-email">Change Email</a>
+        </li>
+        <li>
+          <a href="#" class="option" data-option="change-password"
+            >Change Password</a
+          >
+        </li>
+      </ul>
+      <div id="change-username" class="hidden">
+        <input type="text" placeholder="New Username" id="new-username" />
+        <input
+          type="text"
+          placeholder="Reconfirm Username"
+          id="reconfirm-username"
+        />
+        <button onclick="changeUsername()" class="submit-btn">Submit</button>
+      </div>
+      <div id="change-email" class="hidden">
+        <input type="text" placeholder="New Email" id="new-email" />
+        <input type="text" placeholder="Reconfirm Email" id="reconfirm-email" />
+        <button onclick="changeEmail()" class="submit-btn">Submit</button>
+      </div>
+      <div id="change-password" class="hidden">
+        <input type="password" placeholder="New Password" id="new-password" />
+        <input
+          type="password"
+          placeholder="Reconfirm Password"
+          id="reconfirm-password"
+        />
+        <button onclick="changePassword()" class="submit-btn">Submit</button>
+      </div>
+    </div>
+
+    <script>
+      const options = document.querySelectorAll(".option");
+      options.forEach((option) => {
+        option.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = document.getElementById(option.dataset.option);
+          hideAll();
+          target.classList.remove("hidden");
+        });
+      });
+
+      function hideAll() {
+        document
+          .querySelectorAll(".hidden")
+          .forEach((el) => el.classList.add("hidden"));
+      }
+      function changeUsername() {
+        const newUsername = document.getElementById("new-username").value;
+        const reconfirmUsername =
+          document.getElementById("reconfirm-username").value;
+        fetch("/change-username", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ newUsername, reconfirmUsername }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log("Username changed successfully");
+            } else {
+              console.error("Failed to change username");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function changeEmail() {
+        const newEmail = document.getElementById("new-email").value;
+        const reconfirmEmail = document.getElementById("reconfirm-email").value;
+      }
+
+      function changePassword() {
+        const newPassword = document.getElementById("new-password").value;
+        const reconfirmPassword =
+          document.getElementById("reconfirm-password").value;
+      }
+    </script>
+  </body>
+</html>
