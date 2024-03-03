@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>HLS Player</title>
+  <style>
+    body {
+      margin: 40px auto;
+      background-color: #444;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="video" width="500" height="500" controls></video>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById("video");
+    const folderCID = `<%- folderCID %>`;
+
+    try {
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+
+        hls.loadSource(`https://gateway.pinata.cloud/ipfs/${folderCID}/output.m3u8`);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play();
+        });
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        const m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/output.m3u8`;
+
+        video.src = m3u8Url;
+        video.addEventListener("loadedmetadata", () => {
+          video.play();
+        });
+      }
+    } catch (error) {
+      console.error("Error loading video:", error);
+    }
+  </script>
+</body>
+
+</html>

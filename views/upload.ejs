@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>
+        <% if (message) { %>
+        <p><%= message %></p>
+        <% } %>
+      </h2>
+      <br />
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="video" accept="video/*" />
+        <br />
+        <br />
+        <div class="form-group">
+          <label for="vidName">Name</label>
+          <input
+            type="text"
+            id="vidName"
+            name="vidName"
+            placeholder="Enter the name for the video"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <button type="submit" class="submit-btn">Upload</button>
+      </form>
+      <br />
+      <form action="/" method="get">
+        <button type="submit" class="submit-btn">Back</button>
+      </form>
+    </div>
+  </body>
+</html>
