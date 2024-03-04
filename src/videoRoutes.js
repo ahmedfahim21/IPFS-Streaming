@@ -51,13 +51,13 @@ module.exports = function (server) {
         exists: async (req, cb) => {
           const ext = req.url.split(".").pop();
           if (ext !== "m3u8" && ext !== "ts") {
-            return cb(null, true); // Allow other requests to pass through
+            return cb(null, true);
           }
           try {
             const pinataResponse = await axios.head(
               `https://gateway.pinata.cloud/ipfs/${folderCID}/${req.url}`
             );
-            cb(null, pinataResponse.status === 200); // Respond based on file existence
+            cb(null, pinataResponse.status === 200);
           } catch (error) {
             cb(null, false);
           }
@@ -69,7 +69,7 @@ module.exports = function (server) {
               { responseType: "stream" }
             );
 
-            cb(null, pinataResponse.data); // Pass the stream directly
+            cb(null, pinataResponse.data);
           } catch (error) {
             console.error("Error getting stream:", error);
             cb(null, false);

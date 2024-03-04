@@ -14,32 +14,82 @@
 
 <body>
   <video id="video" width="500" height="500" controls></video>
+
+  <label for="quality">Select Quality:</label>
+  <select id="quality" onchange="updateQuality()" default="Auto">
+    <option value="Auto">Auto</option>
+    <option value="360">360p</option>
+    <option value="480">480p</option>
+    <option value="720">720p</option>
+    <option value="1080">1080p</option>
+  </select>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     const video = document.getElementById("video");
+    const qualitySelector = document.getElementById("quality");
     const folderCID = `<%- folderCID %>`;
+    let quality = "";
 
-    try {
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-
-        hls.loadSource(`https://gateway.pinata.cloud/ipfs/${folderCID}/output.m3u8`);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play();
-        });
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        const m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/output.m3u8`;
-
-        video.src = m3u8Url;
-        video.addEventListener("loadedmetadata", () => {
-          video.play();
-        });
+    function getQuality() {
+      if (qualitySelector.value === "Auto") {
+        let quality1 = quality;
+        const connection =
+          navigator.connection ||
+          navigator.mozConnection ||
+          navigator.webkitConnection;
+        if (connection) {
+          const downlinkMbps = connection.downlink;
+          if (downlinkMbps >= 1.5) {
+            quality = "1080";
+          } else if (downlinkMbps >= 0.5) {
+            quality = "720";
+          } else {
+            quality = "360";
+          }
+          if (quality1 != quality) {
+            m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/${quality}_out.m3u8`;
+            changeQuality();
+          }
+        }
+        setTimeout(getQuality, 5000);
       }
-    } catch (error) {
-      console.error("Error loading video:", error);
     }
+
+    function changeQuality() {
+      try {
+        const currTime = video.currentTime;
+        if (Hls.isSupported()) {
+          const hls = new Hls();
+          hls.loadSource(m3u8Url);
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            video.currentTime = currTime;
+            video.play();
+          });
+        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+          video.src = m3u8Url;
+          video.addEventListener("loadedmetadata", () => {
+            video.play();
+          });
+        }
+      } catch (error) {
+        console.error("Error loading video:", error);
+      }
+    }
+
+    function updateQuality() {
+      quality = qualitySelector.value;
+      if (quality === "Auto") {
+        getQuality();
+      } else {
+        m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/${quality}_out.m3u8`;
+        changeQuality();
+      }
+    }
+
+    updateQuality();
   </script>
+
 </body>
 
 </html>

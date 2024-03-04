@@ -6,6 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const { Video, addNewVideo } = require('./configVideo');
 const ffmpeg = require('fluent-ffmpeg');
+const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
+
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 const router = express.Router();
 require('dotenv').config();
@@ -63,46 +66,65 @@ router.post('/upload', isAuthenticated, upload.single('video'), async (req, res)
     const inputFilePath = req.file.path;
     const outputFileName = 'output';
 
-    ffmpeg(inputFilePath)
-      .addOptions([
-        '-profile:v baseline',
-        '-level 3.0',
-        '-start_number 0',
-        '-hls_time 10',
-        '-hls_list_size 0',
-      ])
-      .output(path.join(timestampFolderPath, `${outputFileName}.m3u8`))
-      .on('end', async () => {
-        try {
-          const folderCID = await pinata.pinFromFS(timestampFolderPath);
+    const resolutions = [
+      { size: "640x360", output: "360_out.m3u8" },
+      { size: "800x480", output: "480_out.m3u8" },
+      { size: "1280x720", output: "720_out.m3u8" },
+      { size: "1920x1080", output: "1080_out.m3u8" },
+    ];
 
-          const newVideo = await addNewVideo({
-            videoName: req.body.vidName,
-            uploaderEmail: req.session.user.email,
-            ipfsCID: folderCID.IpfsHash,
-          });
-          await newVideo.save();
+    const ffmpegPromises = resolutions.map(({ size, output }) => {
+      return new Promise((resolve, reject) => {
+        ffmpeg(inputFilePath, { timeout: 432000 })
+          .addOptions([
+            "-profile:v baseline",
+            "-level 3.0",
+            `-s ${size}`,
+            "-start_number 0",
+            "-hls_time 10",
+            "-hls_list_size 0",
+            "-f hls",
+          ])
+          .output(path.join(timestampFolderPath, `${output}`))
+          .on("end", () => {
+            console.log(`Processing ${size} completed`);
+            resolve();
+          })
+          .on("error", (err) => {
+            console.error(`Error processing ${size}:`, err);
+            res.status(500).render("upload.ejs", { message: "Error processing the video." });
+            reject(err);
+          })
+          .run();
+      });
+    });
 
-          fs.rmSync(timestampFolderPath, { recursive: true });
-          fs.unlinkSync(inputFilePath);
+    await Promise.all(ffmpegPromises);
 
-          console.log("Upload success.");
+    try {
+      const folderCID = await pinata.pinFromFS(timestampFolderPath);
 
-          res.status(200).render("upload.ejs", {
-            message: `${req.body.vidName} uploaded successfully.`,
-          });
-        } catch (error) {
-          console.error('Error during Pinata upload:', error.message);
-          res.status(500).render("upload.ejs", {
-            message: "Error uploading video to Pinata."
-          });
-        }
-      })
-      .on('error', (error) => {
-        console.error('Error generating HLS files:', error);
-        res.status(500).render("upload.ejs", { message: "Error generating HLS files." });
-      })
-      .run();
+      const newVideo = await addNewVideo({
+        videoName: req.body.vidName,
+        uploaderEmail: req.session.user.email,
+        ipfsCID: folderCID.IpfsHash,
+      });
+      await newVideo.save();
+
+      fs.rmSync(timestampFolderPath, { recursive: true });
+      fs.unlinkSync(inputFilePath);
+
+      console.log("Upload success.");
+
+      res.status(200).render("upload.ejs", {
+        message: `${req.body.vidName} uploaded successfully.`,
+      });
+    } catch (error) {
+      console.error('Error during Pinata upload:', error.message);
+      res.status(500).render("upload.ejs", {
+        message: "Error uploading video to Pinata."
+      });
+    }
   } catch (error) {
     console.error("Error:", error);
     res.status(500).render("upload.ejs", {
