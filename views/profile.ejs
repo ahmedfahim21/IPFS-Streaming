@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Profile</title>
+    <style>
+        .profile-data {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-data p {
+            margin: 0;
+            color: #555;
+        }
+    </style>
+    <link rel="stylesheet" href="lister.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="icon" type="image/png" href="/logo2.png" />
+</head>
+
+<body>
+    <div id="navbar"></div>
+    <h1>Profile</h1>
+
+    <div class="profile-data">
+        <p><strong>Name:</strong>
+            <%= username %>
+        </p>
+    </div>
+    <div class="profile-data">
+        <p><strong>E-mail ID:</strong>
+            <%= email %>
+        </p>
+    </div>
+
+    <% if (videos.length> 0) { %>
+        <div class="video-container">
+            <% videos.forEach((video)=> { %>
+                <a href="/videos/<%= video._id %>" class="video-link">
+                    <div class="video-item">
+                        <div class="video-info">
+                            <strong>Title:</strong>
+                            <%= video.videoName %> <br />
+                                <strong>Uploader:</strong>
+                                <%= video.uploaderName %> <br />
+                                    <strong>Date of Upload:</strong>
+                                    <%= video.dateOfUpload %> <br />
+                                        <strong>Views:</strong>
+                                        <%= video.views %> <br />
+                        </div>
+                    </div>
+                </a>
+                <% }); %>
+        </div>
+        <% } else { %>
+            <h3>No videos available.</h3>
+            <% } %>
+
+        <script src="/navbar.js"></script>
+</body>
+
+</html>

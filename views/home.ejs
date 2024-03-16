@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Page</title>
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <div class="form-container">
-      <h2>Welcome to the Home Page</h2>
-      <p>Logged in as: <%= username %></p>
-      <br />
-      <!-- <form action="/editprof" method="get">
-        <button type="submit" class="submit-btn">Edit Profile</button>
-      </form> -->
-      <form action="/videos" method="get">
-        <button type="submit" class="submit-btn">Watch Videos</button>
-      </form>
-      <br />
-      <form action="/upload" method="get">
-        <button type="submit" class="submit-btn">Upload a Video</button>
-      </form>
-      <br />
-      <form action="/logout" method="post">
-        <button type="submit" class="submit-btn">Log Out</button>
-      </form>
-    </div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Page</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/stars.css" />
+  <link rel="icon" type="image/png" href="/logo2.png" />
+</head>
+
+<body>
+  <section id="stars-container"></section>
+  <div class="form-container">
+    <h2>Welcome to the Home Page</h2>
+    <p>Logged in as: <%= username %>
+    </p>
+    <br />
+    <form action="/videos" method="get">
+      <button type="submit" class="submit-btn">Watch Videos</button>
+    </form>
+    <br />
+    <form action="/upload" method="get">
+      <button type="submit" class="submit-btn">Upload a Video</button>
+    </form>
+    <br />
+    <form action="/profile" method="get">
+      <button type="submit" class="submit-btn">View Profile</button>
+    </form>
+    <br>
+    <form action="/logout" method="post">
+      <button type="submit" class="submit-btn">Log Out</button>
+    </form>
+  </div>
+
+  <script src="stars.js"></script>
+</body>
+
 </html>

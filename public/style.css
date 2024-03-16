@@ -10,8 +10,11 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #222629;
-  color: #86c232;
-  font-family: Arial, sans-serif; /* Adding a generic font-family */
+  color: goldenrod;
+  font-family: Arial, sans-serif;
+  background-image: url("img1.jpg");
+  background-size: cover;
+  font-size: 15px;
 }
 
 h2 {
@@ -24,9 +27,10 @@ h2 {
   width: 300px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #474b4f; /* Update border color here */
-  border-radius: 5px;
-  background-color: #474b4f; /* Add background color for the form container */
+  border: 1px solid #474b4f;
+  border-radius: 15px; /* Increased border-radius */
+  background-color: #474b4f; 
+  z-index: 2;
 }
 
 .form-group {
@@ -51,16 +55,17 @@ h2 {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #86c232;
-  color: #6b6e70;
+  background-color: goldenrod; /* Changed background color to golden */
+  color: black; /* Changed text color to golden */
   font-size: 12px;
   border: none;
+  border-radius: 5px; /* Increased border-radius */
   cursor: pointer;
 }
 
 .submit-btn:hover {
-  background-color: #61892f;
-  color: #fcfcfc;
+  background-color: #b8860b; /* Darker shade of golden */
+  color: #fff; /* Changed text color to white */
 }
 
 p {

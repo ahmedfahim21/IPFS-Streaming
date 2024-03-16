@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const pinataSDK = require('@pinata/sdk');
 const fs = require('fs');
 const path = require('path');
-const { Video, addNewVideo } = require('./configVideo');
+const { addNewVideo } = require('./configVideo');
+const collection = require("./configUsers");
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
 
@@ -33,7 +34,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const isAuthenticated = (req, res, next) => {
-  if (req.session && req.session.user) {
+  if (req.session && req.session.userid) {
     next();
   } else {
     res.redirect('/login');
@@ -57,14 +58,13 @@ router.use('/upload', express.static('videos'));
 
 router.post('/upload', isAuthenticated, upload.single('video'), async (req, res) => {
   if (!req.file) {
-    return res.status(400).send('No file uploaded.');
+    return res.status(500).render("upload.ejs", { message: "No file uploaded." });
   }
 
   try {
     const timestampFolderPath = createTimestampFolder();
 
     const inputFilePath = req.file.path;
-    const outputFileName = 'output';
 
     const resolutions = [
       { size: "640x360", output: "360_out.m3u8" },
@@ -103,10 +103,12 @@ router.post('/upload', isAuthenticated, upload.single('video'), async (req, res)
 
     try {
       const folderCID = await pinata.pinFromFS(timestampFolderPath);
+      const username = await collection.findById(req.session.userid);  
 
       const newVideo = await addNewVideo({
         videoName: req.body.vidName,
-        uploaderEmail: req.session.user.email,
+        uploaderID: req.session.userid,
+        uploaderName: username.username,
         ipfsCID: folderCID.IpfsHash,
       });
       await newVideo.save();

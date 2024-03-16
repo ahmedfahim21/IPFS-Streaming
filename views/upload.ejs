@@ -1,40 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Upload</title>
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <div class="form-container">
-      <h2>
-        <% if (message) { %>
-        <p><%= message %></p>
-        <% } %>
-      </h2>
-      <br />
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="video" accept="video/*" />
-        <br />
-        <br />
-        <div class="form-group">
-          <label for="vidName">Name</label>
-          <input
-            type="text"
-            id="vidName"
-            name="vidName"
-            placeholder="Enter the name for the video"
-            required
-            autocomplete="off"
-          />
-        </div>
-        <button type="submit" class="submit-btn">Upload</button>
-      </form>
-      <br />
-      <form action="/" method="get">
-        <button type="submit" class="submit-btn">Back</button>
-      </form>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/stars.css">
+  <link rel="stylesheet" href="/loader.css">
+  <link rel="icon" type="image/png" href="/logo2.png" />
+</head>
+
+<body>
+  <section id="stars-container"></section>
+  <div class="waiting-overlay" id="waitingOverlay">
+    <div class="waiting-overlay-content">
+      <p>Uploading, please wait...</p><br>
+      <div class="loader"></div>
     </div>
-  </body>
+  </div>
+  <div class="form-container">
+    <h2>
+      <% if (message) { %>
+        <p>
+          <%= message %>
+        </p>
+        <% } %>
+    </h2>
+    <br />
+    <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+      <input type="file" name="video" accept="video/*" />
+      <br />
+      <br />
+      <div class="form-group">
+        <label for="vidName">Name</label>
+        <input type="text" id="vidName" name="vidName" placeholder="Enter the name for the video" required
+          autocomplete="off" />
+      </div>
+      <button type="button" class="submit-btn" id="uploadButton" onclick="waiting()">Upload</button>
+    </form>
+    <br />
+    <form action="/" method="get">
+      <button type="submit" class="submit-btn">Back</button>
+    </form>
+  </div>
+  <script src="stars.js"></script>
+  <script>
+    function waiting() {
+      document.getElementById('uploadButton').disabled = true;
+      document.getElementById('uploadForm').classList.add('blur');
+      document.getElementById('waitingOverlay').style.display = 'flex';
+      document.getElementById('uploadForm').submit();
+    }
+  </script>
+</body>
+
 </html>

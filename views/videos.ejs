@@ -4,52 +4,40 @@
 <head>
   <meta charset="UTF-8" />
   <title>List of Videos</title>
-  <style>
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-
-    a {
-      text-decoration: none;
-      color: #333;
-    }
-
-    a:hover {
-      background-color: #f0f0f0;
-    }
-  </style>
+  <link rel="stylesheet" href="/navbar.css">
+  <link rel="stylesheet" href="/lister.css">
+  <link rel="icon" type="image/png" href="/logo2.png" />
 </head>
 
 <body>
-  <h1>List of Videos</h1>
+  <div id="navbar"></div>
+  <h1>Videos</h1>
 
   <% if (videos.length> 0) { %>
-    <ul>
+    <div class="video-container">
       <% videos.forEach((video)=> { %>
-        <a href="/videos/<%= video._id %>">
-          <li>
-            <strong>Title:</strong>
-            <%= video.videoName %> <br />
-              <strong>Uploader:</strong>
-              <%= video.uploaderEmail %> <br />
-                <strong>Date of Upload:</strong>
-                <%= video.dateOfUpload %> <br />
-                  <strong>Views:</strong>
-                  <%= video.views %> <br />
-          </li>
+        <a href="/videos/<%= video._id %>" class="video-link">
+          <div class="video-item">
+            <div class="video-info">
+              <strong>Title:</strong>
+              <%= video.videoName %> <br />
+                <strong>Uploader:</strong>
+                <%= video.uploaderName %> <br />
+                  <strong>Date of Upload:</strong>
+                  <%= video.dateOfUpload %> <br />
+                    <strong>Views:</strong>
+                    <%= video.views %> <br />
+            </div>
+          </div>
         </a>
         <% }); %>
-    </ul>
+    </div>
     <% } else { %>
-      <p>No videos available.</p>
+      <br><br>
+      <h3>No videos available.</h3>
       <% } %>
+
+      <script src="/navbar.js"></script>
 </body>
 
 </html>

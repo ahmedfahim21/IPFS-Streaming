@@ -4,8 +4,12 @@ const collection = require("./configUsers");
 
 const router = express.Router();
 
-router.get("/register", (req, res) => {
-  res.render("register.ejs", { error: null });
+router.get("/register", async (req, res) => {
+  if (req.session && req.session.userid) {
+    res.redirect("/")
+  } else {
+    res.render("register.ejs", { error: null });
+  }
 });
 
 router.post("/register", async (req, res) => {

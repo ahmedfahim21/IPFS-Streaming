@@ -3,93 +3,139 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>HLS Player</title>
+  <title>Video Player</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 800px;
       margin: 40px auto;
-      background-color: #444;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 4px;
     }
   </style>
+  <link rel="stylesheet" href="/navbar.css">
+  <link rel="icon" type="image/png" href="/logo2.png" />
 </head>
 
 <body>
-  <video id="video" width="500" height="500" controls></video>
+  <div id="navbar"></div>
+  <div class="container">
+    <video id="video" controls></video>
 
-  <label for="quality">Select Quality:</label>
-  <select id="quality" onchange="updateQuality()" default="Auto">
-    <option value="Auto">Auto</option>
-    <option value="360">360p</option>
-    <option value="480">480p</option>
-    <option value="720">720p</option>
-    <option value="1080">1080p</option>
-  </select>
+    <label for="quality">Select Quality:</label>
+    <select id="quality" onchange="updateQuality()">
+      <option value="Auto">Auto</option>
+      <option value="360">360p</option>
+      <option value="480">480p</option>
+      <option value="720">720p</option>
+      <option value="1080">1080p</option>
+    </select>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     const video = document.getElementById("video");
-    const qualitySelector = document.getElementById("quality");
-    const folderCID = `<%- folderCID %>`;
-    let quality = "";
+      const qualitySelector = document.getElementById("quality");
+      const folderCID = `<%- folderCID %>`;
+      let quality = "";
 
-    function getQuality() {
-      if (qualitySelector.value === "Auto") {
-        let quality1 = quality;
-        const connection =
-          navigator.connection ||
-          navigator.mozConnection ||
-          navigator.webkitConnection;
-        if (connection) {
-          const downlinkMbps = connection.downlink;
-          if (downlinkMbps >= 1.5) {
-            quality = "1080";
-          } else if (downlinkMbps >= 0.5) {
-            quality = "720";
-          } else {
-            quality = "360";
+      function getQuality() {
+        if (qualitySelector.value === "Auto") {
+          let quality1 = quality;
+          try {
+            const connection =
+              navigator.connection ||
+              navigator.mozConnection ||
+              navigator.webkitConnection;
+
+            if (connection) {
+              const downlinkMbps = connection.downlink;
+              if (downlinkMbps >= 1.5) {
+                quality = "1080";
+              } else if (downlinkMbps >= 0.5) {
+                quality = "720";
+              } else {
+                quality = "360";
+              }
+            }
+            else {
+              quality = "720";
+            }
+          }
+          catch {
           }
           if (quality1 != quality) {
             m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/${quality}_out.m3u8`;
             changeQuality();
           }
+          setTimeout(getQuality, 5000);
         }
-        setTimeout(getQuality, 5000);
       }
-    }
 
-    function changeQuality() {
-      try {
-        const currTime = video.currentTime;
-        if (Hls.isSupported()) {
-          const hls = new Hls();
-          hls.loadSource(m3u8Url);
-          hls.attachMedia(video);
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.currentTime = currTime;
-            video.play();
-          });
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-          video.src = m3u8Url;
-          video.addEventListener("loadedmetadata", () => {
-            video.play();
-          });
+      function changeQuality() {
+        try {
+          const currTime = video.currentTime;
+          if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(m3u8Url);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+              video.currentTime = currTime;
+              video.play();
+            });
+          } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+            video.src = m3u8Url;
+            video.addEventListener("loadedmetadata", () => {
+              video.play();
+            });
+          }
+        } catch (error) {
+          console.error("Error loading video:", error);
         }
-      } catch (error) {
-        console.error("Error loading video:", error);
       }
-    }
 
-    function updateQuality() {
-      quality = qualitySelector.value;
-      if (quality === "Auto") {
-        getQuality();
-      } else {
-        m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/${quality}_out.m3u8`;
-        changeQuality();
+      function updateQuality() {
+        quality = qualitySelector.value;
+        if (quality === "Auto") {
+          getQuality();
+        } else {
+          m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/${quality}_out.m3u8`;
+          changeQuality();
+        }
       }
-    }
 
-    updateQuality();
+      updateQuality();
+
   </script>
-
+  <script src="/navbar.js"></script>
 </body>
 
 </html>

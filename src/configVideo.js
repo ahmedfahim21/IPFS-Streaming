@@ -14,19 +14,21 @@ connect
 
 const videoSchema = new mongoose.Schema({
   videoName: { type: String, required: true },
-  uploaderEmail: { type: String, required: true },
+  uploaderID: { type: String, required: true },
+  uploaderName: { type: String, required: true },
   dateOfUpload: { type: Date, required: true },
   views: { type: Number, required: true },
   ipfsCID: { type: String, required: true },
 });
 
-const Video = mongoose.model("Video", videoSchema);
+const Video = mongoose.model("Videos", videoSchema);
 
 const addNewVideo = async (details) => {
   try {
     const newVideo = new Video({
       videoName: details.videoName,
-      uploaderEmail: details.uploaderEmail,
+      uploaderID: details.uploaderID,
+      uploaderName: details.uploaderName,
       dateOfUpload: new Date(),
       views: 0,
       ipfsCID: details.ipfsCID,
