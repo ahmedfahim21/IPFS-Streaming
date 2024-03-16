@@ -9,3 +9,4 @@
 - Adaptive Bitrate. (A custom attempt.)
 - Profile viewing.
 - Slightly better UI.
+- 404 Error page xd.
