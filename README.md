@@ -1,10 +1,11 @@
 ## To Do List
 
-- Splitting into 2 ports.
-- Profile viewing.
+- Editing profile.
 
 ## Currently Working Features
 
-- A working upload method.
+- A working upload method, with a waiting screen.
 - Decentralized video viewing which allows multiple videos to be streamed simultaneously.
 - Adaptive Bitrate. (A custom attempt.)
+- Profile viewing.
+- Slightly better UI.
