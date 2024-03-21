@@ -1,68 +1,31 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Player</title>
+    <link rel="stylesheet" href="/navbar.css" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="stylesheet" href="/viewer.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Video Player</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-    }
+  <body>
+    <div id="navbar"></div>
+    <div class="container">
+      <video id="video" controls></video>
 
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+      <label for="quality">Select Quality:</label>
+      <select id="quality" onchange="updateQuality()">
+        <option value="Auto">Auto</option>
+        <option value="360">360p</option>
+        <option value="480">480p</option>
+        <option value="720">720p</option>
+        <option value="1080">1080p</option>
+      </select>
+    </div>
 
-    video {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    select {
-      padding: 8px;
-      font-size: 16px;
-      border-radius: 4px;
-    }
-  </style>
-  <link rel="stylesheet" href="/navbar.css">
-  <link rel="icon" type="image/png" href="/logo2.png" />
-</head>
-
-<body>
-  <div id="navbar"></div>
-  <div class="container">
-    <video id="video" controls></video>
-
-    <label for="quality">Select Quality:</label>
-    <select id="quality" onchange="updateQuality()">
-      <option value="Auto">Auto</option>
-      <option value="360">360p</option>
-      <option value="480">480p</option>
-      <option value="720">720p</option>
-      <option value="1080">1080p</option>
-    </select>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script>
-    const video = document.getElementById("video");
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      const video = document.getElementById("video");
       const qualitySelector = document.getElementById("quality");
       const folderCID = `<%- folderCID %>`;
       let quality = "";
@@ -85,13 +48,10 @@
               } else {
                 quality = "360";
               }
-            }
-            else {
+            } else {
               quality = "720";
             }
-          }
-          catch {
-          }
+          } catch {}
           if (quality1 != quality) {
             m3u8Url = `https://gateway.pinata.cloud/ipfs/${folderCID}/${quality}_out.m3u8`;
             changeQuality();
@@ -133,9 +93,7 @@
       }
 
       updateQuality();
-
-  </script>
-  <script src="/navbar.js"></script>
-</body>
-
+    </script>
+    <script src="/navbar.js"></script>
+  </body>
 </html>
