@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(222deg, #000000, #616161, #daa520);
+  background-size: 1000% 1000%;
+
+  -webkit-animation: AnimationName 38s ease infinite;
+  -moz-animation: AnimationName 38s ease infinite;
+  animation: AnimationName 38s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0% {
+    background-position: 50% 0%;
+  }
+
+  50% {
+    background-position: 50% 80%;
+  }
+
+  100% {
+    background-position: 50% 0%;
+  }
+}
+
+@-moz-keyframes AnimationName {
+  0% {
+    background-position: 50% 0%;
+  }
+
+  50% {
+    background-position: 50% 80%;
+  }
+
+  100% {
+    background-position: 50% 0%;
+  }
+}
+
+@keyframes AnimationName {
+  0% {
+    background-position: 50% 0%;
+  }
+
+  50% {
+    background-position: 50% 80%;
+  }
+
+  100% {
+    background-position: 50% 0%;
+  }
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+}

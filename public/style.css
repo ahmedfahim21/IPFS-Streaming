@@ -9,17 +9,23 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #222629;
   color: goldenrod;
   font-family: Arial, sans-serif;
-  background-image: url("img1.jpg");
+  background-image: url("img.jpg");
   background-size: cover;
   font-size: 15px;
 }
 
 h2 {
   text-align: center;
+  font-family: fantasy;
   font-size: 30px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 20px;
   margin-bottom: 30px;
 }
 
@@ -28,7 +34,7 @@ h2 {
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #474b4f;
-  border-radius: 15px; /* Increased border-radius */
+  border-radius: 15px; 
   background-color: #474b4f; 
   z-index: 2;
 }
@@ -55,17 +61,17 @@ h2 {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: goldenrod; /* Changed background color to golden */
-  color: black; /* Changed text color to golden */
+  background-color: goldenrod;
+  color: black; 
   font-size: 12px;
   border: none;
-  border-radius: 5px; /* Increased border-radius */
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .submit-btn:hover {
-  background-color: #b8860b; /* Darker shade of golden */
-  color: #fff; /* Changed text color to white */
+  background-color: #b8860b;
+  color: #fff;
 }
 
 p {

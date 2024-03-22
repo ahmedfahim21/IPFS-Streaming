@@ -2,20 +2,19 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  /* background-color: #f4f4f4;  */
   font-family: Arial, sans-serif;
-  background-image: url("img1.jpg");
+  background-image: url("img.jpg");
   background-size: cover;
 }
 
-h1, h3 {
+h1,
+h3 {
   text-align: center;
   margin-top: 20px;
-  /* color: #333; */
-  color: #FF9800;
+  color: #ff9800;
 }
 
-h3{
+h3 {
   padding-top: calc(5%);
 }
 
@@ -28,9 +27,10 @@ li {
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #fff;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 li:hover {
@@ -39,11 +39,10 @@ li:hover {
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-
 a {
   text-decoration: none;
   color: #333;
-  display: block; 
+  display: block;
 }
 
 .video-container {
@@ -57,18 +56,24 @@ a {
   width: calc(75%);
   margin: 50px;
   padding: 30px;
-  border: 3px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  opacity: 0.6;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 32px 0 rgba(218, 165, 32, 0.356);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 .video-item:hover {
-  background-color: #f0f0f0;
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   transform: translateY(-5px);
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .video-link {
