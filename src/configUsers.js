@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const connect = mongoose.connect(
-  // "mongodb+srv://user:user@cluster0.zrmkzsh.mongodb.net/"
-  "mongodb://localhost:27017"
+  "mongodb+srv://user:user@cluster0.uzems9o.mongodb.net/"
+  // "mongodb://localhost:27017"
 );
 
 connect
