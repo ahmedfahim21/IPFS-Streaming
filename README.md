@@ -35,6 +35,7 @@ To clone and run this server, you will need the following installed on your mach
     MONGO_URI=<your_mongodb_connection_string>
     PINATA_API_KEY=<your_pinata_api_key>
     PINATA_SECRET_API_KEY=<your_pinata_secret_api_key>
+    PINATA_JWT=<your_pinata_jwt_token>
     ```
 
 4. **Start MongoDB**
@@ -48,7 +49,7 @@ To clone and run this server, you will need the following installed on your mach
 
     Start the server by running:
     ```sh
-    npm start
+    npm run startDev
     ```
 
     The server should now be running on `http://localhost:3000`.
