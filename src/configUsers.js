@@ -1,8 +1,16 @@
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+// Load environment variables from .env file
+dotenv.config();
+
 const connect = mongoose.connect(
-  "mongodb+srv://user:user@cluster0.uzems9o.mongodb.net/"
-  // "mongodb://localhost:27017"
+  process.env.MONGO_URI || "mongodb://localhost:27017"
 );
+// const connect = mongoose.connect(
+//   "mongodb+srv://user:user@cluster0.uzems9o.mongodb.net/"
+//   // "mongodb://localhost:27017"
+// );
 
 connect
   .then(() => {
