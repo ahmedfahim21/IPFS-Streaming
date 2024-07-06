@@ -11,6 +11,25 @@ To clone and run this server, you will need the following installed on your mach
 3. **FFmpeg** (for video processing)
 4. **Pinata** account (for IPFS storage)
 
+## Screenshots:
+Home Screen
+![HomeScreen](images/image1.png)
+
+Video Player
+
+![VideoPlayer](images/image2.png)
+
+Adaptive Bit Rate 
+
+![AdaptiveBitRate](images/image3.png)
+
+## Key Features
+
+- **Adaptive Bit-Rate Streaming**: Adjusts video quality based on network conditions.
+- **Video Chunking with FFmpeg**: Processes videos into 10-second chunks at various resolutions.
+- **IPFS Storage via Pinata**: Stores video chunks on IPFS, reducing the need for extensive database storage.
+
+
 ## Instructions to Clone and Run the Server
 
 1. **Clone the Repository**
@@ -53,9 +72,3 @@ To clone and run this server, you will need the following installed on your mach
     ```
 
     The server should now be running on `http://localhost:3000`.
-
-## Key Features
-
-- **Adaptive Bit-Rate Streaming**: Adjusts video quality based on network conditions.
-- **Video Chunking with FFmpeg**: Processes videos into 10-second chunks at various resolutions.
-- **IPFS Storage via Pinata**: Stores video chunks on IPFS, reducing the need for extensive database storage.

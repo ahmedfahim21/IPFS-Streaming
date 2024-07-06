@@ -124,3 +124,5 @@ app.get("/:error", (req, res) => {
     res.render("login.ejs", { error: null, mailid: null });
   }
 });
+
+module.exports = app

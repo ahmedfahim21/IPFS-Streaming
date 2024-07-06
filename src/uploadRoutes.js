@@ -19,9 +19,31 @@ const pinata = new pinataSDK(PINATA_API_KEY, PINATA_API_SECRET);
 
 router.use(bodyParser.json());
 
+const createTimestampFolder = () => {
+  const timestamp = Date.now();
+  const videosDir = path.join(__dirname, '../videos');
+  fs.mkdirSync(videosDir, { recursive: true });
+  const folderPath = path.join(videosDir, timestamp.toString());
+  fs.mkdirSync(folderPath);
+  return folderPath;
+};
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './videos');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './videos');
+    const timestampFolderPath = createTimestampFolder();
+    cb(null, timestampFolderPath);
   },
   filename: function (req, file, cb) {
     cb(
@@ -39,15 +61,6 @@ const isAuthenticated = (req, res, next) => {
   } else {
     res.redirect('/login');
   }
-};
-
-const createTimestampFolder = () => {
-  const timestamp = Date.now();
-  const videosDir = path.join(__dirname, '../videos');
-  fs.mkdirSync(videosDir, { recursive: true });
-  const folderPath = path.join(videosDir, timestamp.toString());
-  fs.mkdirSync(folderPath);
-  return folderPath;
 };
 
 router.get('/upload', isAuthenticated, async (req, res) => {
